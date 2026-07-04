@@ -1,5 +1,6 @@
 // import React from "react";
 import "../auth.form.scss";
+import { Link } from "react-router";
 
 const Login = () => {
   const handleSubmit = (e) => {
@@ -22,7 +23,7 @@ const Login = () => {
           </div>
 
           <div className="input-group">
-            <label htmlFor="password">Email</label>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
@@ -33,6 +34,10 @@ const Login = () => {
 
           <button className="button primary-button">Login</button>
         </form>
+
+        <p>
+          Don't have an account? <Link to={"/register"}>Register</Link>{" "}
+        </p>
       </div>
     </main>
   );
