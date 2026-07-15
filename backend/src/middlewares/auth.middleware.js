@@ -29,4 +29,4 @@ async function authUser(req, res, next) {
   }
 }
 
-model.exports = { authUser };
+module.exports = { authUser };
