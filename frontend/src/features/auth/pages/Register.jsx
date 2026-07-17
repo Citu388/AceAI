@@ -8,14 +8,22 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const { loading, handleRegister } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleRegister({ username, email, password });
-    navigate("/");
+    try {
+      await handleRegister({ username, email, password });
+      navigate("/");
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          "Something went wrong. Please try again.",
+      );
+    }
   };
 
   if (loading) {
@@ -69,6 +77,8 @@ const Register = () => {
               name="password"
             ></input>
           </div>
+
+          {error && <p className="error">{error}</p>}
 
           <button className="button primary-button">Register</button>
         </form>

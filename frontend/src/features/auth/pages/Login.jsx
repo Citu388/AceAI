@@ -10,11 +10,20 @@ const Login = () => {
   const { loading, handleLogin } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleLogin({ email, password });
-    navigate("/");
+    try {
+      setError("");
+      await handleLogin({ email, password });
+      navigate("/");
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          "Something went wrong. Please try again.",
+      );
+    }
   };
 
   if (loading) {
@@ -55,6 +64,8 @@ const Login = () => {
               name="password"
             ></input>
           </div>
+
+          {error && <p className="error">{error}</p>}
 
           <button className="button primary-button">Login</button>
         </form>
