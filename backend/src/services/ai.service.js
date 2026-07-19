@@ -9,7 +9,7 @@ const ai = new GoogleGenAI({
 const interviewReportSchema = z.object({
   matchScore: z
     .number()
-    .description(
+    .describe(
       "A score between 0 and 100 indicating how well the candidate's profile matches the job description, based on factors like skills, experience, and qualifications",
     ),
   technicalQuestions: z
@@ -17,20 +17,22 @@ const interviewReportSchema = z.object({
       z.object({
         question: z
           .string()
-          .description(
+          .describe(
             "A technical interview question that can be asked in the interview relevant to the job description and candidate's resume/skills",
           ),
         intention: z
           .string()
-          .description(
+          .describe(
             "The underlying reason or concept the interviewer is testing with this question, e.g. what skill, knowledge area, or depth of understanding it evaluates",
           ),
-        answer: z.string.description(
-          "How to answer this question, what points to cover, what approach to take etc.",
-        ),
+        answer: z
+          .string()
+          .describe(
+            "How to answer this question, what points to cover, what approach to take etc.",
+          ),
       }),
     )
-    .description(
+    .describe(
       "A list of technical interview questions relevant to the job description and candidate's resume/skills, along with their intentions and answers",
     ),
 
@@ -39,20 +41,22 @@ const interviewReportSchema = z.object({
       z.object({
         question: z
           .string()
-          .description(
+          .describe(
             "A behavioral interview question that can be asked in the interview relevant to the job description and candidate's resume/skills",
           ),
         intention: z
           .string()
-          .description(
+          .describe(
             "The underlying reason or concept the interviewer is testing with this question, e.g. what skill, knowledge area, or depth of understanding it evaluates",
           ),
-        answer: z.string.description(
-          "How to answer this question, what points to cover, what approach to take etc.",
-        ),
+        answer: z
+          .string()
+          .describe(
+            "How to answer this question, what points to cover, what approach to take etc.",
+          ),
       }),
     )
-    .description(
+    .describe(
       "A list of behavioral interview questions relevant to the job description and candidate's resume/skills, along with their intentions and answers",
     ),
   skillGaps: z
@@ -60,17 +64,17 @@ const interviewReportSchema = z.object({
       z.object({
         skill: z
           .string()
-          .description(
+          .describe(
             "The skill which the candidate is lacking or needs to improve",
           ),
         severity: z
           .enum(["low", "medium", "high"])
-          .description(
+          .describe(
             "How critical this skill gap is for the target role — low means minor/nice-to-have, high means essential and likely to hurt the candidate's chances if not addressed",
           ),
       }),
     )
-    .description(
+    .describe(
       "A list of skill gaps identified by comparing the candidate's resume against the job description, each rated by severity",
     ),
   preparationPlan: z
@@ -78,27 +82,27 @@ const interviewReportSchema = z.object({
       z.object({
         day: z
           .number()
-          .description(
+          .describe(
             "Sequential day number in the preparation plan, starting from 1",
           ),
         focus: z
           .string()
-          .description(
+          .describe(
             "The primary topic or theme to concentrate on for this day, e.g. data structures & algorithms, system design fundamentals, behavioral question practice, mock interviews",
           ),
         tasks: z
           .array(z.string())
-          .description(
+          .describe(
             "Concrete, actionable tasks for the candidate to complete on this day, e.g. 'Solve 5 array-based LeetCode problems', 'Read chapter 3 of Designing Data-Intensive Applications', 'Do a mock behavioral interview and record answers'.",
           ),
       }),
     )
-    .description(
+    .describe(
       "A structured, day-by-day study plan generated based on the candidate's skill gaps and match score, sequenced to build toward interview readiness",
     ),
   title: z
     .string()
-    .description(
+    .describe(
       "The job title or role for which this interview report and preparation plan were generated, e.g. 'Backend Developer', 'Senior Frontend Engineer'",
     ),
 });
@@ -107,4 +111,39 @@ async function generateInterviewReport({
   resume,
   selfDescription,
   jobDescription,
-}) {}
+}) {
+  const prompt = `You are an experienced technical interviewer and career coach.
+Based on the following candidate details, generate a comprehensive interview
+preparation report.
+
+Resume: ${resume || "Not provided"}
+Self Description: ${selfDescription || "Not provided"}
+Job Description: ${jobDescription}
+
+Instructions:
+-Calculate a matchScore (0-100) based on how well the candidate's resume and
+  self description align with the job description's requirements.
+-Generate 10-15 technical questions relevant to the specific skills and
+  technologies mentioned in the job description, tailored to the candidate's
+  apparent experience level.
+-Generate 8-12 behavioral questions relevant to the role and seniority level.
+-Identify skill gaps by comparing the candidate's background against the job
+  requirements, and rate each gap's severity.
+-Create a day-wise preparation plan (5-7 days) prioritizing the most
+  critical skill gaps first.
+-If resume is not provided, rely more heavily on the self description to
+  assess the candidate's background.`;
+
+  const response = await ai.models.generateContent({
+    model: "gemini-3.5-flash",
+    contents: prompt,
+    config: {
+      responseMimeType: "application/json",
+      responseJsonSchema: zodToJsonSchema(interviewReportSchema),
+    },
+  });
+
+  console.log(JSON.parse(response.text));
+}
+
+module.exports = { generateInterviewReport };
