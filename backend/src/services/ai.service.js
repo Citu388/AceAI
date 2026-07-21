@@ -139,11 +139,11 @@ Instructions:
     contents: prompt,
     config: {
       responseMimeType: "application/json",
-      responseJsonSchema: zodToJsonSchema(interviewReportSchema),
+      responseSchema: zodToJsonSchema(interviewReportSchema),
     },
   });
 
-  console.log(JSON.parse(response.text));
+  return JSON.parse(response.text);
 }
 
 module.exports = { generateInterviewReport };
