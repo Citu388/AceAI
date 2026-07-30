@@ -7,6 +7,7 @@ const Home = () => {
   const { loading, generateReport, reports } = useInterview();
   const [jobDescription, setJobDescription] = useState("");
   const [selfDescription, setSelfDescription] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
   const resumeInputRef = useRef();
 
   const navigate = useNavigate();
@@ -138,7 +139,14 @@ const Home = () => {
                   id="resume"
                   name="resume"
                   accept=".pdf,.docx"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    setSelectedFile(file);
+                  }}
                 />
+                {selectedFile && (
+                  <p className="selected-file">✅ {selectedFile.name}</p>
+                )}
               </label>
             </div>
 
