@@ -12,11 +12,15 @@ const Home = () => {
     jobDescription: "",
     profile: "",
   });
+  const [error, setError] = useState("");
+
   const resumeInputRef = useRef();
 
   const navigate = useNavigate();
 
   const handleGenerateReport = async () => {
+    setError("");
+
     const resumeFile = resumeInputRef.current.files[0];
 
     const newErrors = {
@@ -39,12 +43,28 @@ const Home = () => {
       return;
     }
 
-    const data = await generateReport({
-      jobDescription,
-      selfDescription,
-      resumeFile,
-    });
-    navigate(`/interview/${data._id}`);
+    // const data = await generateReport({
+    //   jobDescription,
+    //   selfDescription,
+    //   resumeFile,
+    // });
+    // navigate(`/interview/${data._id}`);
+
+    try {
+      const data = await generateReport({
+        jobDescription,
+        selfDescription,
+        resumeFile,
+      });
+
+      navigate(`/interview/${data._id}`);
+    } catch (error) {
+      setError(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to generate interview report.",
+      );
+    }
   };
 
   if (loading) {
@@ -253,6 +273,7 @@ const Home = () => {
           <span className="footer-info">
             AI-Powered Strategy Generation &bull; Approx 30s
           </span>
+
           <button onClick={handleGenerateReport} className="generate-btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -265,6 +286,7 @@ const Home = () => {
             </svg>
             Generate My Interview Strategy
           </button>
+          {error && <p className="generate-error">⚠ {error}</p>}
         </div>
       </div>
 
