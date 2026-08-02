@@ -8,12 +8,37 @@ const Home = () => {
   const [jobDescription, setJobDescription] = useState("");
   const [selfDescription, setSelfDescription] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
+  const [errors, setErrors] = useState({
+    jobDescription: "",
+    profile: "",
+  });
   const resumeInputRef = useRef();
 
   const navigate = useNavigate();
 
   const handleGenerateReport = async () => {
     const resumeFile = resumeInputRef.current.files[0];
+
+    const newErrors = {
+      jobDescription: "",
+      profile: "",
+    };
+
+    if (!jobDescription.trim()) {
+      newErrors.jobDescription = "Job description is required.";
+    }
+
+    if (!resumeFile && !selfDescription.trim()) {
+      newErrors.profile =
+        "Please upload a resume or provide a self description.";
+    }
+
+    setErrors(newErrors);
+
+    if (newErrors.jobDescription || newErrors.profile) {
+      return;
+    }
+
     const data = await generateReport({
       jobDescription,
       selfDescription,
@@ -69,13 +94,24 @@ const Home = () => {
               <span className="badge badge--required">Required</span>
             </div>
             <textarea
+              value={jobDescription}
               onChange={(e) => {
                 setJobDescription(e.target.value);
+
+                if (errors.jobDescription) {
+                  setErrors((prev) => ({
+                    ...prev,
+                    jobDescription: "",
+                  }));
+                }
               }}
               className="panel__textarea"
               placeholder={`Paste the full job description here...\ne.g. 'Senior Frontend Engineer at Google requires proficiency in React, TypeScript, and large-scale system design...'`}
               maxLength={5000}
             />
+            {errors.jobDescription && (
+              <p className="form-error">{errors.jobDescription}</p>
+            )}
             <div className="char-counter">0 / 5000 chars</div>
           </div>
 
@@ -161,6 +197,7 @@ const Home = () => {
                 Quick Self-Description
               </label>
               <textarea
+                value={selfDescription}
                 onChange={(e) => {
                   setSelfDescription(e.target.value);
                 }}
@@ -170,6 +207,8 @@ const Home = () => {
                 placeholder="Briefly describe your experience, key skills, and years of experience if you don't have a resume handy..."
               />
             </div>
+
+            {errors.profile && <p className="form-error">{errors.profile}</p>}
 
             {/* Info Box */}
             <div className="info-box">

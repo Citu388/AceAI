@@ -369,7 +369,7 @@ $font-stack:
   }
 }
 
-// ── Page Footer ───────────────────────────────────────────────────────────────
+// -- Page Footer
 .page-footer {
   display: flex;
   gap: 1.5rem;
@@ -384,4 +384,13 @@ $font-stack:
       color: $text-primary;
     }
   }
+}
+
+// -- Form Error Message
+
+.form-error {
+  margin-top: 0.5rem;
+  color: #ff5c7a;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
