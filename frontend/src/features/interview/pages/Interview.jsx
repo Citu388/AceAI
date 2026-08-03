@@ -142,7 +142,7 @@ const Interview = () => {
   if (loading || !report) {
     return (
       <main className="loading-screen">
-        <h1>Loading your interview plan...</h1>
+        <div className="loader"></div>
       </main>
     );
   }

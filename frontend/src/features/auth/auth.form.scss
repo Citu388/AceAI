@@ -1,3 +1,6 @@
+$accent: #ff2d78;
+$bg-page: #0d1117;
+
 main {
   min-height: 100vh;
   width: 100%;
@@ -46,4 +49,36 @@ main {
 
   padding: 5px;
   text-align: center;
+}
+
+.loading-screen {
+  width: 100%;
+  min-height: 100vh;
+  background: $bg-page;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  width: 52px;
+  height: 52px;
+
+  border: 4px solid transparent;
+  border-top-color: $accent;
+  border-right-color: $accent;
+  border-radius: 50%;
+
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }

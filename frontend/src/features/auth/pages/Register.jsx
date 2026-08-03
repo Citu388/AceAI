@@ -1,4 +1,5 @@
 // import React from "react";
+import "../auth.form.scss";
 import { useState } from "react";
 import { Link } from "react-router";
 import { useAuth } from "../hooks/useAuth";
@@ -28,8 +29,8 @@ const Register = () => {
 
   if (loading) {
     return (
-      <main>
-        <h1>Loading...</h1>
+      <main className="loading-screen">
+        <div className="loader"></div>
       </main>
     );
   }
