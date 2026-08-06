@@ -5,15 +5,29 @@ import Protected from "./features/auth/components/Protected.jsx";
 import Home from "./features/interview/pages/Home.jsx";
 import Interview from "./features/interview/pages/Interview.jsx";
 import PublicOnly from "./features/auth/components/PublicOnly.jsx";
+import AppLayout from "./features/auth/components/AppLayout.jsx";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: (
-      <Protected>
-        <Home />
-      </Protected>
-    ),
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/",
+        element: (
+          <Protected>
+            <Home />
+          </Protected>
+        ),
+      },
+      {
+        path: "/interview/:interviewId",
+        element: (
+          <Protected>
+            <Interview />
+          </Protected>
+        ),
+      },
+    ],
   },
   {
     path: "/login",
@@ -29,14 +43,6 @@ export const router = createBrowserRouter([
       <PublicOnly>
         <Register />
       </PublicOnly>
-    ),
-  },
-  {
-    path: "/interview/:interviewId",
-    element: (
-      <Protected>
-        <Interview />
-      </Protected>
     ),
   },
 ]);
