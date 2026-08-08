@@ -34,46 +34,74 @@ const Login = () => {
     );
   }
   return (
-    <main>
-      <div className="form-container">
-        <h1>Login</h1>
+    <main className="auth-shell">
+      <section className="auth-shell__brand">
+        <div className="brand-content">
+          <span className="brand-logo">AceAI</span>
+          <h2>Walk into every interview already knowing what they'll ask.</h2>
+          <p>
+            Paste a job description, get a personalized prep plan, and practice
+            with AI feedback tuned to that exact role.
+          </p>
 
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email">Email</label>
-            <input
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              type="email"
-              id="email"
-              placeholder="Enter email address"
-              name="email"
-            ></input>
+          <div className="mock-interview-card">
+            <div className="mock-interview-card__header">
+              <span className="mock-dot"></span>
+              <span className="mock-dot"></span>
+              <span className="mock-dot"></span>
+              <span className="mock-label">Live Analysis</span>
+            </div>
+            <p className="mock-question">
+              "Tell me about a time you led a project under pressure."
+            </p>
+            <div className="mock-feedback">
+              <span className="mock-feedback__badge">STAR structure</span>
+              <span className="mock-feedback__check">✓ Strong</span>
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              type="password"
-              id="password"
-              placeholder="Enter password"
-              name="password"
-            ></input>
-          </div>
+      <section className="auth-shell__form">
+        <div className="form-container">
+          <h1>Welcome back</h1>
+          <p className="form-subtitle">
+            Log in to pick up where your prep left off.
+          </p>
 
-          {error && <p className="error">{error}</p>}
+          <form onSubmit={handleSubmit}>
+            <div className="input-group">
+              <label htmlFor="email">Email</label>
+              <input
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                id="email"
+                placeholder="Enter email address"
+                name="email"
+              />
+            </div>
 
-          <button className="button primary-button">Login</button>
-        </form>
+            <div className="input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                id="password"
+                placeholder="Enter password"
+                name="password"
+              />
+            </div>
 
-        <p>
-          Don't have an account? <Link to={"/register"}>Register</Link>{" "}
-        </p>
-      </div>
+            {error && <p className="error">{error}</p>}
+
+            <button className="button primary-button">Login</button>
+          </form>
+
+          <p className="form-footer">
+            Don't have an account? <Link to={"/register"}>Register</Link>
+          </p>
+        </div>
+      </section>
     </main>
   );
 };

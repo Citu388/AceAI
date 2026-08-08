@@ -271,7 +271,7 @@ const Home = () => {
         {/* Card Footer */}
         <div className="interview-card__footer">
           <span className="footer-info">
-            AI-Powered Strategy Generation &bull; Approx 30s
+            Personalized plan based on your profile
           </span>
 
           <button onClick={handleGenerateReport} className="generate-btn">

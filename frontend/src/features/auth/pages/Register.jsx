@@ -35,59 +35,85 @@ const Register = () => {
     );
   }
   return (
-    <main>
-      <div className="form-container">
-        <h1>Register</h1>
+    <main className="auth-shell">
+      <section className="auth-shell__brand">
+        <div className="brand-content">
+          <span className="brand-logo">AceAI</span>
+          <h2>Your next offer starts with knowing what to say.</h2>
+          <p>
+            Create an account and get a strategy built from the actual job
+            description you're applying to — not generic tips.
+          </p>
 
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="username">Username</label>
-            <input
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-              type="text"
-              id="username"
-              placeholder="Enter Username"
-              name="username"
-            ></input>
+          <div className="mock-interview-card">
+            <div className="mock-interview-card__header">
+              <span className="mock-dot"></span>
+              <span className="mock-dot"></span>
+              <span className="mock-dot"></span>
+              <span className="mock-label">Live Analysis</span>
+            </div>
+            <p className="mock-question">
+              "Tell me about a time you led a project under pressure."
+            </p>
+            <div className="mock-feedback">
+              <span className="mock-feedback__badge">STAR structure</span>
+              <span className="mock-feedback__check">✓ Strong</span>
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div className="input-group">
-            <label htmlFor="email">Email</label>
-            <input
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              type="email"
-              id="email"
-              placeholder="Enter email address"
-              name="email"
-            ></input>
-          </div>
+      <section className="auth-shell__form">
+        <div className="form-container">
+          <h1>Create your account</h1>
+          <p className="form-subtitle">
+            Start building your interview strategy in minutes.
+          </p>
 
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              type="password"
-              id="password"
-              placeholder="Enter password"
-              name="password"
-            ></input>
-          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="input-group">
+              <label htmlFor="username">Username</label>
+              <input
+                onChange={(e) => setUsername(e.target.value)}
+                type="text"
+                id="username"
+                placeholder="Enter Username"
+                name="username"
+              />
+            </div>
 
-          {error && <p className="error">{error}</p>}
+            <div className="input-group">
+              <label htmlFor="email">Email</label>
+              <input
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                id="email"
+                placeholder="Enter email address"
+                name="email"
+              />
+            </div>
 
-          <button className="button primary-button">Register</button>
-        </form>
+            <div className="input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                id="password"
+                placeholder="Enter password"
+                name="password"
+              />
+            </div>
 
-        <p>
-          Already have an account? <Link to={"/login"}>Login</Link>{" "}
-        </p>
-      </div>
+            {error && <p className="error">{error}</p>}
+
+            <button className="button primary-button">Register</button>
+          </form>
+
+          <p className="form-footer">
+            Already have an account? <Link to={"/login"}>Login</Link>
+          </p>
+        </div>
+      </section>
     </main>
   );
 };
