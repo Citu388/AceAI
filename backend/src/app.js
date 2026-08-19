@@ -9,9 +9,10 @@ const interviewRouter = require("./routes/interview.routes");
 
 app.use(express.json());
 app.use(cookieParser());
+const allowedOrigins = ["http://localhost:5173", "https://aceai.site"];
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true,
   }),
 );
