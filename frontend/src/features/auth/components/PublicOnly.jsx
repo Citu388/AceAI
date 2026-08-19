@@ -1,13 +1,14 @@
 import { useAuth } from "../hooks/useAuth";
 import { Navigate } from "react-router";
+import "./app-layout.scss";
 
 const PublicOnly = ({ children }) => {
   const { loading, user } = useAuth();
 
   if (loading) {
     return (
-      <main>
-        <h1>Loading...</h1>
+      <main className="loading-screen">
+        <div className="loader"></div>
       </main>
     );
   }
