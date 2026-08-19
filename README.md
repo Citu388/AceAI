@@ -415,6 +415,7 @@ AceAI helps answer:
 -[ ]Company-specific interview preparation
 
 ---
+```
 
 ## Live Demo
 
@@ -441,4 +442,7 @@ Software Engineer | MERN Stack Developer | Freelance Developer
 If you find **AceAI** useful, consider giving the repository a ⭐ on GitHub.
 
 **Built with React, Node.js, MongoDB and AI.**
+
+```
+
 ```
