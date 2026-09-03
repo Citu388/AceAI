@@ -6,6 +6,12 @@ const blacklistTokenSchema = new mongoose.Schema(
       type: String,
       required: [true, "token is required to be added in the blacklist"],
     },
+
+    expiresAt: {
+      type: Date,
+      required: true,
+      index: { expires: 0 },
+    },
   },
   {
     timestamps: true,

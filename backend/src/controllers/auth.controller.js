@@ -110,7 +110,12 @@ async function loginUserController(req, res) {
 async function logoutUserController(req, res) {
   const token = req.cookies.token;
   if (token) {
-    await tokenBlacklistModel.create({ token });
+    const decoded = jwt.decode(token);
+
+    await tokenBlacklistModel.create({
+      token,
+      expiresAt: new Date(decoded.exp * 1000),
+    });
   }
 
   res.clearCookie("token");
